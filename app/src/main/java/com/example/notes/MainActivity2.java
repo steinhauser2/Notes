@@ -3,11 +3,14 @@ package com.example.notes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity2 extends AppCompatActivity {
@@ -37,6 +40,8 @@ public class MainActivity2 extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.logout_menu:
                 Intent intent = new Intent(this, MainActivity.class);
+                SharedPreferences sharedPreferences = getSharedPreferences("com.example.notes", Context.MODE_PRIVATE);
+                sharedPreferences.edit().remove("username").apply();
                 startActivity(intent);
                 break;
             case R.id.notes_menu:
