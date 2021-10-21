@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,9 +30,14 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         welcomeText = (TextView) findViewById(R.id.textView);
-        Intent intent = getIntent();
-        String str = intent.getStringExtra("message");
-        welcomeText.setText("Welcome " + str + "!");
+        SharedPreferences sharedPreferences = getSharedPreferences("com.example.notes", Context.MODE_PRIVATE);
+        String userName = sharedPreferences.getString("username", "");
+        welcomeText.setText("Welcome " + userName + "!");
+
+        Context context = getApplicationContext();
+        SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase("notes", Context.MODE_PRIVATE,null);
+        DBHelper dbHelper = new DBHelper(sqLiteDatabase);
+        notes = dbHelper.readNotes(userName);
 
         ArrayList<String> displayNotes = new ArrayList<>();
 
